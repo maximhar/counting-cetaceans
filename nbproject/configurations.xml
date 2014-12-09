@@ -9,6 +9,7 @@
       <itemPath>navigation.h</itemPath>
       <itemPath>observer.h</itemPath>
       <itemPath>observer_funs.h</itemPath>
+      <itemPath>printing.h</itemPath>
       <itemPath>sighting.h</itemPath>
       <itemPath>sighting_funs.h</itemPath>
       <itemPath>sighting_group.h</itemPath>
@@ -35,6 +36,7 @@
       <itemPath>main.c</itemPath>
       <itemPath>navigation.c</itemPath>
       <itemPath>observer.c</itemPath>
+      <itemPath>printing.c</itemPath>
       <itemPath>sighting.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -105,6 +107,10 @@
       </item>
       <item path="observers6" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="printing.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="printing.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="sighting.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="sighting.h" ex="false" tool="3" flavor2="0">
@@ -173,6 +179,10 @@
       <item path="observers5" ex="false" tool="3" flavor2="0">
       </item>
       <item path="observers6" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="printing.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="printing.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="sighting.c" ex="false" tool="0" flavor2="0">
       </item>

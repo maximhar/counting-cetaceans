@@ -14,6 +14,7 @@
 #include "sighting_group.h"
 #include "observer_funs.h"
 #include "arraydefs.h"
+#include "printing.h"
 
 #define MAMMAL_RANGE 0.02
 #define POD_RANGE 0.1
@@ -55,9 +56,13 @@ void mission1(array_observer* arr_o, array_sighting* arr_s) {
     for(i = 0; i < arr_s->count; i++) {
         sighting *c_sig = arr_s->at(arr_s,i);
         observer *obs = arr_o->find(arr_o, c_sig->id, &id_obs_comp);
-        if(obs == NULL) continue;
-        c_sig->loc = offset_location(obs->loc, 
-                c_sig->bearing, c_sig->range);
+        if(obs != NULL) {
+            c_sig->loc = offset_location(obs->loc, 
+                    c_sig->bearing, c_sig->range);
+        } else {
+            arr_s->remove(arr_s,i);
+            i--;
+        }
     }
     purge_outsiders(arr_s);
     printf("\nMISSION 1\n");

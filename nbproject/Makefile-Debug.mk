@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/navigation.o \
 	${OBJECTDIR}/observer.o \
+	${OBJECTDIR}/printing.o \
 	${OBJECTDIR}/sighting.o
 
 
@@ -81,6 +82,11 @@ ${OBJECTDIR}/observer.o: observer.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/observer.o observer.c
+
+${OBJECTDIR}/printing.o: printing.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/printing.o printing.c
 
 ${OBJECTDIR}/sighting.o: sighting.c 
 	${MKDIR} -p ${OBJECTDIR}
