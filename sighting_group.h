@@ -1,9 +1,3 @@
-/* 
- * File:   sighting_group.h
- * Author: maximhar
- *
- * Created on 08 December 2014, 05:12
- */
 #include "sighting.h"
 #include "sighting_funs.h"
 #include "arraydefs.h"

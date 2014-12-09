@@ -18,16 +18,28 @@
 #define MAMMAL_RANGE 0.02
 #define POD_RANGE 0.1
 
+
+void wait_enter(){
+    char c = 0;
+    while(c != 'c')
+    {
+        scanf(" %c", &c);
+    }
+}
+
+/* compares whether two sightings are equal */
 int sighting_comp(void* p1, sighting* s2){
     sighting* s1 = (sighting*) p1;
     return s1->id == s2->id && s1->type == s2->type &&
             s1->loc.lat == s2->loc.lat && s1->loc.lng == s2->loc.lng;
 }
 
+/* checks whether the observer's id is equal to the supplied id */
 int id_obs_comp(void* id, observer* obs){
     return (!strcmp(id, obs->id));
 }
 
+/* removes mammals outside of the bounds we are interested in from the array */
 void purge_outsiders(array_sighting* arr){
     int i;
     for(i = 0; i < arr->count; i++){
@@ -82,6 +94,7 @@ array_sighting_group mission2(array_sighting* arr){
     
     printf("\nMISSION 2\n");
     print_sightings_2(&grps);
+    arr2.free(&arr2);
     return grps;
 }
 
@@ -109,14 +122,8 @@ void mission3(array_sighting_group* arr){
     
     printf("\nMISSION 3\n");
     print_pods(&pods);
-}
-
-void wait_enter(){
-    char c = 0;
-    while(c != 'c')
-    {
-        scanf(" %c", &c);
-    }
+    pods.free(&pods);
+    arr2.free(&arr2);
 }
 
 int main(int argc, char** argv) {
@@ -127,26 +134,36 @@ int main(int argc, char** argv) {
     printf("Sightings file?: ");
     scanf("%255s", sighting_path);
     
+    /* read in all the files */
     array_observer observers = read_observers(observer_path);
     array_sighting sightings = read_sightings(sighting_path);
     
+    /* if count is less than 0, an error occured. abort! */
     if(observers.count < 0 || sightings.count < 0) {
         fprintf(stderr, 
                 "Something went wrong with reading the files.\nAborting.\n");
         return (EXIT_FAILURE);
     }
     
+    /* do mission 1 */
     mission1(&observers, &sightings);
     printf("Press c to continue...");
     wait_enter();
+    /* do mission 2, saving the set of sighting groups produced by it*/
     array_sighting_group grps = mission2(&sightings);
     printf("Press c to continue...");
     wait_enter();
+    /* run mission 3 using the array of sighting groups produced by mission 2*/
     mission3(&grps);
     printf("Press c to continue...");
     wait_enter();
     printf("\nThe end.\n");
+    /* flush stdout for good measure */
     fflush(stdout);
+    
+    observers.free(&observers);
+    sightings.free(&sightings);
+    grps.free(&grps);
     return (EXIT_SUCCESS);
 }
 

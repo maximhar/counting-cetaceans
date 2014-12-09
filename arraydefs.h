@@ -9,7 +9,7 @@ extern "C" {
     
 #include "observer.h"
 #include "sighting.h"
-    
+/* declare all the types of arrays we need in the application */
 #define ARR_TYPE observer
 #include "array.h"
 #undef ARR_TYPE

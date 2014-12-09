@@ -29,10 +29,14 @@ typedef struct {
  * The great_circle function returns the number of nautical miles
  * between two locations as a double.
  */
+/*add up two locations*/
 location sum (location a, location b);
 double great_circle(location location_1, location location_2);
+/*produce a location from a location, a bearing and a range*/
 location offset_location(location origin, double bearing, double range);
+/*determine whether the location is within the area we are interested in*/
 int check_bounds(location loc);
+/*determine if the locations are within the specified range of each other*/
 int is_near(location loc1, location loc2, double range);
 #ifdef	__cplusplus
 extern "C" {

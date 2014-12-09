@@ -8,6 +8,7 @@ typedef struct {
     char type;
     double bearing;
     double range;
+    /* this is only set after mission1 does its job, initially undefined*/
     location loc;
 } sighting;
    

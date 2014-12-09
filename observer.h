@@ -1,6 +1,7 @@
 #include "navigation.h"
 #ifndef OBSERVER
 #define OBSERVER
+
 typedef struct {
     short day;
     short month;

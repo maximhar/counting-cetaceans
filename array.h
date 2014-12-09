@@ -1,5 +1,6 @@
 /* A really cool generic array with pseudo-methods.
    methods:
+    free: frees up all heap variables in the array
     at: returns the element at the specified index, checks for bounds
     remove: deletes the element at the specified location
     add: adds the specified element to the end of the array
@@ -18,6 +19,7 @@ typedef struct COMB(array_,type){ \
     type *_buf; \
     int _cap; \
     int count; \
+    void (*free) (struct ARR_NAME(type)*); \
     type* (*at) (struct ARR_NAME(type)*, int); \
     void (*remove) (struct ARR_NAME(type)*, int); \
     void (*add) (struct ARR_NAME(type)*, type); \
@@ -30,6 +32,9 @@ DECLARE_ARRAY(ARR_TYPE);
 
 #define MAKE_CONSTRUCTOR_EX(type) \
 ARR_NAME(type) COMB(new_array_,type) (void)
+
+#define MAKE_FREE_EX(type) \
+void COMB(free_,type) (ARR_NAME(type) *self)
 
 #define MAKE_AT_EX(type) \
 type* COMB(at_,type) (ARR_NAME(type) *self, int ind)
@@ -57,6 +62,7 @@ MAKE_CONTAINS_EX(ARR_TYPE);
 MAKE_FIND_EX(ARR_TYPE);
 MAKE_REMOVE_EX(ARR_TYPE);
 MAKE_COPY_EX(ARR_TYPE);
+MAKE_FREE_EX(ARR_TYPE);
 MAKE_CONSTRUCTOR_EX(ARR_TYPE);
 
 #ifdef DEFINE_ARR
@@ -76,8 +82,16 @@ ARR_NAME(type) COMB(new_array_,type) (void) { \
     arr.remove = &COMB(remove_,type); \
     arr.copy = &COMB(copy_,type); \
     arr.find = &COMB(find_,type); \
+    arr.free = &COMB(free_,type); \
     return arr; \
 }
+
+#define MAKE_FREE(type) \
+void COMB(free_,type) (ARR_NAME(type) *self) { \
+    free(self->_buf); \
+    self->count=0; \
+    self->_cap=0; \
+ }
 
 #define MAKE_COPY(type) \
 ARR_NAME(type) COMB(copy_,type) (ARR_NAME(type) *self) { \
@@ -142,6 +156,7 @@ MAKE_CONTAINS(ARR_TYPE);
 MAKE_REMOVE(ARR_TYPE);
 MAKE_COPY(ARR_TYPE);
 MAKE_FIND(ARR_TYPE);
+MAKE_FREE(ARR_TYPE);
 MAKE_CONSTRUCTOR(ARR_TYPE);
 #endif
 
