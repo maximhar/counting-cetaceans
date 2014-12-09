@@ -23,6 +23,10 @@ int sighting_comp(sighting* s1, sighting* s2){
             s1->loc.lat == s2->loc.lat && s1->loc.lng == s2->loc.lng;
 }
 
+int id_obs_comp(void* id, observer* obs){
+    return (!strcmp(id, obs->id));
+}
+
 void purge_outsiders(array_sighting* arr){
     int i;
     for(i = 0; i < arr->count; i++){
@@ -37,7 +41,7 @@ void mission1(array_observer* arr_o, array_sighting* arr_s) {
     int i = 0;
     for(i = 0; i < arr_s->count; i++) {
         sighting *c_sig = arr_s->at(arr_s,i);
-        observer *obs = find_observer(c_sig->id, arr_o);
+        observer *obs = arr_o->find(arr_o, c_sig->id, &id_obs_comp);
         if(obs == NULL) continue;
         c_sig->loc = offset_location(obs->loc, 
                 c_sig->bearing, c_sig->range);
@@ -50,11 +54,7 @@ void mission1(array_observer* arr_o, array_sighting* arr_s) {
 array_sighting_group mission2(array_sighting* arr){
 
     int i = 0, j = 0;
-    array_sighting arr2 = new_array_sighting();
-    for(i = 0; i < arr->count; i++){
-        sighting s = *arr->at(arr, i);
-        arr2.add(&arr2, s);
-    }
+    array_sighting arr2 = arr->copy(arr);
     array_sighting_group grps = new_array_sighting_group();
     location avg;
     for(i = 0; i < arr->count; i++) {
@@ -87,11 +87,7 @@ array_sighting_group mission2(array_sighting* arr){
 void mission3(array_sighting_group* arr){
     
     int i = 0, j = 0;
-    array_sighting_group arr2 = new_array_sighting_group();
-    for(i=0; i<arr->count;i++){
-        sighting_group s = *arr->at(arr, i);
-        arr2.add(&arr2, s);
-    }
+    array_sighting_group arr2 = arr->copy(arr);
     array_pod pods = new_array_pod();
     for(i = 0; i < arr->count; i++) {
         sighting c_sig = arr->at(arr,i)->parent;

@@ -17,7 +17,7 @@ array_observer read_observers(char* path) {
         arr.count = -1;
         return arr;
     }
-    int c_ts = fscanf(file, " %d %d %d %d %d %d", &ts.day, &ts.month, &ts.year, 
+    int c_ts = fscanf(file, " %hd %hd %hd %hd %hd %hd", &ts.day, &ts.month, &ts.year, 
                 &ts.hour, &ts.minute, &ts.second);
     if(c_ts != 6) {
         perror("Unexpected observers format");
@@ -30,13 +30,4 @@ array_observer read_observers(char* path) {
     }
     fclose(file);
     return arr;
-}
-
-observer* find_observer(char* id, array_observer* arr) {
-    int i = 0;
-    for(i = 0; i < arr->count; i++){
-        if(!strcmp(id, arr->at(arr, i)->id)) 
-            return arr->at(arr, i);
-    }
-    return NULL;
 }

@@ -12,9 +12,42 @@ typedef struct COMB(array_,type){ \
     void (*remove) (struct ARR_NAME(type)*, int); \
     void (*add) (struct ARR_NAME(type)*, type); \
     int (*contains) (struct ARR_NAME(type)*, type*, int (*comp) (type*, type*)); \
+    type* (*find) (struct ARR_NAME(type)*, void*, int (*comp) (void*, type*)); \
+    struct ARR_NAME(type) (*copy) (struct ARR_NAME(type)*); \
 } COMB(array_,type)
 
 DECLARE_ARRAY(ARR_TYPE);
+
+#define MAKE_CONSTRUCTOR_EX(type) \
+ARR_NAME(type) COMB(new_array_,type) (void)
+
+#define MAKE_AT_EX(type) \
+type* COMB(at_,type) (ARR_NAME(type) *self, int ind)
+
+#define MAKE_REMOVE_EX(type) \
+void COMB(remove_,type) (ARR_NAME(type) *self, int ind)
+
+#define MAKE_ADD_EX(type) \
+void COMB(add_,type) (ARR_NAME(type) *self, type elem)
+
+#define MAKE_CONTAINS_EX(type) \
+int COMB(contains_,type) (ARR_NAME(type) *self, \
+type* elem, int (*comp) (type*, type*))
+
+#define MAKE_FIND_EX(type) \
+type* COMB(find_,type) (ARR_NAME(type) *self, \
+void* what, int (*comp) (void*, type*))
+
+#define MAKE_COPY_EX(type) \
+ARR_NAME(type) COMB(copy_,type) (ARR_NAME(type) *self)
+
+MAKE_AT_EX(ARR_TYPE);
+MAKE_ADD_EX(ARR_TYPE);
+MAKE_CONTAINS_EX(ARR_TYPE);
+MAKE_FIND_EX(ARR_TYPE);
+MAKE_REMOVE_EX(ARR_TYPE);
+MAKE_COPY_EX(ARR_TYPE);
+MAKE_CONSTRUCTOR_EX(ARR_TYPE);
 
 #ifdef DEFINE_ARR
 
@@ -31,7 +64,19 @@ ARR_NAME(type) COMB(new_array_,type) (void) { \
     arr.add = &COMB(add_,type); \
     arr.contains = &COMB(contains_,type); \
     arr.remove = &COMB(remove_,type); \
+    arr.copy = &COMB(copy_,type); \
+    arr.find = &COMB(find_,type); \
     return arr; \
+}
+
+#define MAKE_COPY(type) \
+ARR_NAME(type) COMB(copy_,type) (ARR_NAME(type) *self) { \
+    ARR_NAME(type) cpy = COMB(new_array_,type)(); \
+    int i; \
+    for(i = 0; i < self->count; i++){ \
+        type el = *self->at(self,i); \
+        cpy.add(&cpy,el); } \
+    return cpy; \
 }
 
 #define MAKE_AT(type) \
@@ -73,34 +118,24 @@ int COMB(contains_,type) (ARR_NAME(type) *self, \
     return 0; \
 }
 
+#define MAKE_FIND(type) \
+type* COMB(find_,type) (ARR_NAME(type) *self, \
+void* what, int (*comp) (void*, type*)) {\
+    int i; \
+    for(i = 0; i < self->count; i++) { \
+        if(comp(what, &self->_buf[i])) { \
+            return &self->_buf[i]; } \
+    } \
+    return 0; \
+}
+
 MAKE_AT(ARR_TYPE);
 MAKE_ADD(ARR_TYPE);
 MAKE_CONTAINS(ARR_TYPE);
 MAKE_REMOVE(ARR_TYPE);
+MAKE_COPY(ARR_TYPE);
+MAKE_FIND(ARR_TYPE);
 MAKE_CONSTRUCTOR(ARR_TYPE);
 #endif
 
-#ifndef DEFINE_ARR
-#define MAKE_CONSTRUCTOR_EX(type) \
-ARR_NAME(type) COMB(new_array_,type) (void)
-
-#define MAKE_AT_EX(type) \
-type* COMB(at_,type) (ARR_NAME(type) *self, int ind)
-
-#define MAKE_REMOVE_EX(type) \
-void COMB(remove_,type) (ARR_NAME(type) *self, int ind)
-
-#define MAKE_ADD_EX(type) \
-void COMB(add_,type) (ARR_NAME(type) *self, type elem)
-
-#define MAKE_CONTAINS_EX(type) \
-int COMB(contains_,type) (ARR_NAME(type) *self, \
-type elem, int (*comp) (type*, type*))
-
-MAKE_AT_EX(ARR_TYPE);
-MAKE_ADD_EX(ARR_TYPE);
-MAKE_CONTAINS_EX(ARR_TYPE);
-MAKE_REMOVE_EX(ARR_TYPE);
-MAKE_CONSTRUCTOR_EX(ARR_TYPE);
-#endif
 #endif

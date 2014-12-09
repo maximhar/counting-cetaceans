@@ -76,8 +76,7 @@ void print_pods(array_pod *pods){
             sighting *c_sig = c_pod->at(c_pod, j);
             mammal_str(c_sig->type, type);
             printf("%-10s  %7lf  %7lf\n", type,
-                    c_sig->loc.lat, c_sig->loc.lng,
-                    c_sig->true_loc.lat, c_sig->true_loc.lng);
+                    c_sig->loc.lat, c_sig->loc.lng);
         }  
         printf("\n");
     }   

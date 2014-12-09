@@ -9,7 +9,6 @@ typedef struct {
     double bearing;
     double range;
     location loc;
-    location true_loc;
 } sighting;
    
 #endif
