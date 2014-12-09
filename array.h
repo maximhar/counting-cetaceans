@@ -1,3 +1,13 @@
+/* A really cool generic array with pseudo-methods.
+   methods:
+    at: returns the element at the specified index, checks for bounds
+    remove: deletes the element at the specified location
+    add: adds the specified element to the end of the array
+    contains: checks whether the specified criteria is contained within the
+        array, using a supplied comparison function
+    find: returns the first element that specifies the supplied criteria, using
+        a supplied comparison function
+    copy: returns a shallow copy of the array */
 #ifdef ARR_TYPE
 
 #include <stdlib.h>
@@ -11,7 +21,7 @@ typedef struct COMB(array_,type){ \
     type* (*at) (struct ARR_NAME(type)*, int); \
     void (*remove) (struct ARR_NAME(type)*, int); \
     void (*add) (struct ARR_NAME(type)*, type); \
-    int (*contains) (struct ARR_NAME(type)*, type*, int (*comp) (type*, type*)); \
+    int (*contains) (struct ARR_NAME(type)*, void*, int (*comp) (void*, type*)); \
     type* (*find) (struct ARR_NAME(type)*, void*, int (*comp) (void*, type*)); \
     struct ARR_NAME(type) (*copy) (struct ARR_NAME(type)*); \
 } COMB(array_,type)
@@ -32,7 +42,7 @@ void COMB(add_,type) (ARR_NAME(type) *self, type elem)
 
 #define MAKE_CONTAINS_EX(type) \
 int COMB(contains_,type) (ARR_NAME(type) *self, \
-type* elem, int (*comp) (type*, type*))
+void* elem, int (*comp) (void*, type*))
 
 #define MAKE_FIND_EX(type) \
 type* COMB(find_,type) (ARR_NAME(type) *self, \
@@ -109,13 +119,10 @@ void COMB(add_,type) (ARR_NAME(type) *self, type elem) { \
 
 #define MAKE_CONTAINS(type) \
 int COMB(contains_,type) (ARR_NAME(type) *self, \
-    type* elem, int (*comp) (type*, type*)) { \
-    int i; \
-    for(i = 0; i < self->count; i++) { \
-        if(comp(elem, &self->_buf[i])) { \
-            return 1; } \
-    } \
-    return 0; \
+    void* elem, int (*comp) (void*, type*)) { \
+    if((self->find(self, (void*)elem, comp)) != NULL) { \
+        return 1; } else { \
+        return 0; }\
 }
 
 #define MAKE_FIND(type) \
@@ -126,7 +133,7 @@ void* what, int (*comp) (void*, type*)) {\
         if(comp(what, &self->_buf[i])) { \
             return &self->_buf[i]; } \
     } \
-    return 0; \
+    return NULL; \
 }
 
 MAKE_AT(ARR_TYPE);

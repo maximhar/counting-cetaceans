@@ -18,7 +18,8 @@
 #define MAMMAL_RANGE 0.02
 #define POD_RANGE 0.1
 
-int sighting_comp(sighting* s1, sighting* s2){
+int sighting_comp(void* p1, sighting* s2){
+    sighting* s1 = (sighting*) p1;
     return s1->id == s2->id && s1->type == s2->type &&
             s1->loc.lat == s2->loc.lat && s1->loc.lng == s2->loc.lng;
 }
