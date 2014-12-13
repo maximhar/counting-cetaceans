@@ -7,8 +7,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/maximhar/Documents/GitHub/counting-cetaceans/counting-cetaceans/main.c</file>
-            <file>file:/C:/Users/maximhar/Documents/GitHub/counting-cetaceans/counting-cetaceans/observer.c</file>
+            <file>file:/C:/Users/maximhar/Documents/GitHub/counting-cetaceans/printing.h</file>
+            <file>file:/C:/Users/maximhar/Documents/GitHub/counting-cetaceans/arraydefs.h</file>
+            <file>file:/C:/Users/maximhar/Documents/GitHub/counting-cetaceans/sighting.c</file>
+            <file>file:/C:/Users/maximhar/Documents/GitHub/counting-cetaceans/observer.c</file>
+            <file>file:/C:/Users/maximhar/Documents/GitHub/counting-cetaceans/navigation.h</file>
+            <file>file:/C:/Users/maximhar/Documents/GitHub/counting-cetaceans/sighting.h</file>
+            <file>file:/C:/Users/maximhar/Documents/GitHub/counting-cetaceans/sighting_group.h</file>
+            <file>file:/C:/Users/maximhar/Documents/GitHub/counting-cetaceans/observer.h</file>
+            <file>file:/C:/Users/maximhar/Documents/GitHub/counting-cetaceans/printing.c</file>
+            <file>file:/C:/Users/maximhar/Documents/GitHub/counting-cetaceans/observer_funs.h</file>
+            <file>file:/C:/Users/maximhar/Documents/GitHub/counting-cetaceans/array.h</file>
+            <file>file:/C:/Users/maximhar/Documents/GitHub/counting-cetaceans/main.c</file>
+            <file>file:/C:/Users/maximhar/Documents/GitHub/counting-cetaceans/sighting_funs.h</file>
         </group>
     </open-files>
 </project-private>

@@ -14,9 +14,6 @@ typedef struct sighting_group {
     array_sighting children;
 } sighting_group;
 
-#define ARR_TYPE sighting_group 
-#include "array.h"
-#undef ARR_TYPE
 
 #ifdef	__cplusplus
 }

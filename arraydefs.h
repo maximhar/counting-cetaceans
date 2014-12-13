@@ -24,6 +24,11 @@ typedef array_sighting pod;
 #include "array.h"
 #undef ARR_TYPE
 
+#include "sighting_group.h"
+
+#define ARR_TYPE sighting_group 
+#include "array.h"
+#undef ARR_TYPE
 
 #ifdef	__cplusplus
 }
